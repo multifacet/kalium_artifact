@@ -4,3 +4,6 @@
 [submodule "kalium-benchmarks"]
 	path = kalium-benchmarks
 	url = git@github.com:multifacet/kalium-benchmarks.git
+[submodule "kalium-proxy"]
+	path = kalium-proxy
+	url = https://github.com/multifacet/kalium-proxy.git
