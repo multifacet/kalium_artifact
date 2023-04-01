@@ -7,3 +7,6 @@
 [submodule "kalium-proxy"]
 	path = kalium-proxy
 	url = https://github.com/multifacet/kalium-proxy.git
+[submodule "kalium-controller"]
+	path = kalium-controller
+	url = https://github.com/multifacet/kalium-controller
