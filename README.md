@@ -2,6 +2,11 @@
 
 This repository contains the artifact for the paper `Guarding Serverless Applications with Kalium`. The project contains 3 submodules that need to be built separately. The following has been tested on a cluster of 5 machines running Ubuntu 18.04 LTS.
 
+Clone this repo to a build machine (preferrably running Ubuntu 18.04 LTS) using
+```
+git clone && git submodule update --init --recursive
+```
+
 ### Table of Contents
 1. [Building](#building)
 2. [Setting up Kubernetes](#example2)
@@ -20,7 +25,7 @@ Run `setup-prerequisites.sh` to setup the prerequisites
 Modify line 336 in kalium/runsc/container/container.go ([here](https://github.com/multifacet/kalium/blob/12ef38ce771ac6b29665cbad11017838d55363bb/runsc/container/container.go#L336)) to point to the URI of the controller node
 
 ##### Build Step
-Run `./build.sh`. This will generate a folder `build` containing the binaries `runsc` (gVisor), `seclambda` (kalium-proxy) and `ctr` (controller) 
+Run `./build.sh`. This will generate a folder `build` containing the binaries `runsc` (gVisor), `seclambda` (kalium-proxy) and `ctr` (controller)
 
 ### Setting up Kubernetes Nodes
 
