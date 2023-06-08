@@ -95,8 +95,7 @@ if [ "$1" == "--control" ]; then
 	kubeadm init --control-plane-endpoint $(hostname) --pod-network-cidr=10.217.0.0/16
   	mkdir -p $HOME/.kube
   	sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-  	#sudo chown $(id -u):$(id -g) $HOME/.kube/config
-	sudo chmod 777 $HOME/.kube -R
+  	sudo chown $(id -u):$(id -g) $HOME/.kube/config
   	#kubectl create -f https://raw.githubusercontent.com/cilium/cilium/v1.6/install/kubernetes/quick-install.yaml
 	curl -L --remote-name-all https://github.com/cilium/cilium-cli/releases/latest/download/cilium-linux-amd64.tar.gz{,.sha256sum}
 sha256sum --check cilium-linux-amd64.tar.gz.sha256sum
@@ -117,38 +116,38 @@ EOF
 	sudo apt-get update
 	sudo apt-get install -y docker-ce docker-ce-cli
 
-#	echo "#################################"
-#	echo "Installing OpenFaas"
-#	kubectl apply -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml
-#	curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
-#	helm repo add openfaas https://openfaas.github.io/faas-netes/
-#	helm upgrade openfaas --install openfaas/openfaas     --namespace openfaas      --set functionNamespace=openfaas-fn     --set generateBasicAuth=true     --set openfaasPRO=false     --set faasnetes.httpProbe=false     --set faasnetes.livenessProbe.timeoutSeconds=5 --set faasnetes.livenessProbe.periodSeconds=70      --set faasnetes.readinessProbe.periodSeconds=70
-#	curl -sSL https://cli.openfaas.com | sudo -E sh
-#	wget -O crd.yaml https://raw.githubusercontent.com/openfaas/faas-netes/master/artifacts/crds/openfaas.com_profiles.yaml
-#	echo "Experimental try profile with openfaas-fn as well"
-#	cat <<EOF | kubectl apply -f - 
-#          kind: Profile
-#          apiVersion: openfaas.com/v1
-#          metadata:
-#            name: test
-#            namespace: openfaas
-#          spec:
+	echo "#################################"
+	echo "Installing OpenFaas"
+	kubectl apply -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml
+	curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+	helm repo add openfaas https://openfaas.github.io/faas-netes/
+	helm upgrade openfaas --install openfaas/openfaas     --namespace openfaas      --set functionNamespace=openfaas-fn     --set generateBasicAuth=true     --set openfaasPRO=false     --set faasnetes.httpProbe=false     --set faasnetes.livenessProbe.timeoutSeconds=5 --set faasnetes.livenessProbe.periodSeconds=70      --set faasnetes.readinessProbe.periodSeconds=70
+	curl -sSL https://cli.openfaas.com | sudo -E sh
+	wget -O crd.yaml https://raw.githubusercontent.com/openfaas/faas-netes/master/artifacts/crds/openfaas.com_profiles.yaml
+	echo "Experimental try profile with openfaas-fn as well"
+	cat <<EOF | kubectl apply -f - 
+          kind: Profile
+          apiVersion: openfaas.com/v1
+          metadata:
+            name: test
+            namespace: openfaas
+          spec:
             # Configuration values can be set as key-value properties
-#              runtimeClassName: gvisor
-#EOF
-	#curl -sSL https://cli.openfaas.com | sudo -E sh
+              runtimeClassName: gvisor
+EOF
+	curl -sSL https://cli.openfaas.com | sudo -E sh
 	#faas-cli login --password $(kubectl -n openfaas get secret basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode) --gateway $HOSTNAME:31112
 
-	#helm uninstall -n openfaas openfaas
-	#git clone https://github.com/deepaksirone/faas-netes.git
-	#pushd ./faas-netes 
-	#git checkout gvisor
-	#kubectl apply -f ./yaml_runc
-	#popd
+	helm uninstall -n openfaas openfaas
+	git clone https://github.com/deepaksirone/faas-netes.git
+	pushd ./faas-netes 
+	git checkout gvisor
+	kubectl apply -f ./yaml_runc
+	popd
 
-	#sleep 20
+	sleep 20
 
-	#faas-cli login --password $(kubectl -n openfaas get secret basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode) --gateway $HOSTNAME:31112
-	#echo "#### Now copy gVisor and seclambda to /usr/local/bin on all nodes and move the default docker image store ####"
+	faas-cli login --password $(kubectl -n openfaas get secret basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode) --gateway $HOSTNAME:31112
+	echo "#### Now copy gVisor and seclambda to /usr/local/bin on all nodes and move the default docker image store ####"
 	
 fi

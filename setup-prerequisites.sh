@@ -2,7 +2,7 @@
 
 set -ex
 
-BAZEL_INSTALL_DIR ?= $HOME/bazel
+BAZEL_INSTALL_DIR=$HOME/bazel
 
 sudo apt update
 sudo apt install wget curl zlib1g-dev
