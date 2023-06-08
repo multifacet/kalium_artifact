@@ -89,7 +89,7 @@ mkdir -p /mydata/seclambda_log
 mkdir -p /mydata/microbench_logs
 mkdir -p /mydata/mount
 
-if [ "$1" == "control" ]; then
+if [ "$1" == "--control" ]; then
 	apt install -y python3-pip libssl-dev libz-dev luarocks
 	luarocks install luasocket
 	kubeadm init --control-plane-endpoint $(hostname) --pod-network-cidr=10.217.0.0/16
