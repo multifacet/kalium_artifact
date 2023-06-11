@@ -21,5 +21,5 @@ make
 cp ctr instid policy_test.json ../build/
 popd
 
-echo "Kalium and kalium-proxy built"
+echo "Kalium kalium-proxy and controller built"
 echo "Copy ./build/runsc and ./build/seclambda into /usr/local/bin in all the kubernetes nodes"
