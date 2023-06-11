@@ -1,1 +1,6 @@
 /build
+bazel-1.2.1-installer-linux-*
+czmq-4.2.0*
+lz4/
+zeromq-*
+test.sh
