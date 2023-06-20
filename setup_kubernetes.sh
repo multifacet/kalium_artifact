@@ -26,7 +26,7 @@ EOF
 
 sudo sysctl --system
 
-sudo apt-get update && apt-get install -y apt-transport-https ca-certificates curl software-properties-common apparmor
+sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common apparmor
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
 sudo add-apt-repository \
