@@ -10,7 +10,7 @@ net.bridge.bridge-nf-call-iptables = 1
 EOF
 sudo sysctl --system
 
-sudo cat > /etc/modules-load.d/containerd.conf <<EOF
+cat << EOF | sudo tee /etc/modules-load.d/containerd.conf
 overlay
 br_netfilter
 EOF
@@ -18,7 +18,7 @@ EOF
 sudo modprobe overlay
 sudo modprobe br_netfilter
 
-sudo cat > /etc/sysctl.d/99-kubernetes-cri.conf <<EOF
+cat << EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
 net.bridge.bridge-nf-call-iptables  = 1
 net.ipv4.ip_forward                 = 1
 net.bridge.bridge-nf-call-ip6tables = 1
