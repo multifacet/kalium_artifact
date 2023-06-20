@@ -35,5 +35,6 @@ popd
 sleep 20
 
 faas-cli login --password $(kubectl -n openfaas get secret basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode) --gateway $HOSTNAME:31112
-echo "#### Now copy gVisor and seclambda to /usr/local/bin on all nodes and move the default docker image store ####"
+echo "OpenFaas Installed Successfully!"
+#echo "#### Now copy gVisor and seclambda to /usr/local/bin on all nodes and move the default docker image store ####"
 

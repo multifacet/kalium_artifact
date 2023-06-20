@@ -10,36 +10,36 @@ net.bridge.bridge-nf-call-iptables = 1
 EOF
 sudo sysctl --system
 
-cat > /etc/modules-load.d/containerd.conf <<EOF
+sudo cat > /etc/modules-load.d/containerd.conf <<EOF
 overlay
 br_netfilter
 EOF
 
-modprobe overlay
-modprobe br_netfilter
+sudo modprobe overlay
+sudo modprobe br_netfilter
 
-cat > /etc/sysctl.d/99-kubernetes-cri.conf <<EOF
+sudo cat > /etc/sysctl.d/99-kubernetes-cri.conf <<EOF
 net.bridge.bridge-nf-call-iptables  = 1
 net.ipv4.ip_forward                 = 1
 net.bridge.bridge-nf-call-ip6tables = 1
 EOF
 
-sysctl --system
+sudo sysctl --system
 
-apt-get update && apt-get install -y apt-transport-https ca-certificates curl software-properties-common apparmor
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+sudo apt-get update && apt-get install -y apt-transport-https ca-certificates curl software-properties-common apparmor
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
 
-add-apt-repository \
+sudo add-apt-repository \
     "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
     $(lsb_release -cs) \
     stable"
 
-apt-get update && apt-get remove containerd.io && apt-get install -y containerd.io=1.6.12-1
+sudo apt-get update && sudo apt-get remove containerd.io && sudo apt-get install -y containerd.io=1.6.12-1
 
-mkdir -p /etc/containerd
-containerd config default > /etc/containerd/config.toml
+sudo mkdir -p /etc/containerd
+sudo containerd config default > /etc/containerd/config.toml
 
-systemctl restart containerd
+sudo systemctl restart containerd
 
 sudo apt-get update && sudo apt-get install -y apt-transport-https curl
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
@@ -53,11 +53,11 @@ sudo apt-get update
 sudo apt-get install -qy kubelet=1.21.0-00 kubectl=1.21.0-00 kubeadm=1.21.0-00
 sudo apt-mark hold kubelet kubeadm kubectl
 
-swapoff -a
+sudo swapoff -a
 
 ## Install go
 wget https://golang.org/dl/go1.14.4.linux-amd64.tar.gz
-tar -C /usr/local -xzf go1.14.4.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.14.4.linux-amd64.tar.gz
 export PATH=$PATH:/usr/local/go/bin
 
 ## Install gvisor containerd shim
@@ -85,14 +85,15 @@ EOF
 
 
 sudo systemctl restart containerd
-mkdir -p /mydata/seclambda_log
-mkdir -p /mydata/microbench_logs
-mkdir -p /mydata/mount
+sudo mkdir -p /mydata/seclambda_log
+sudo mkdir -p /mydata/microbench_logs
+sudo mkdir -p /mydata/mount
+sudo chmod 777 -R /mydata
 
 if [ "$1" == "--control" ]; then
-	apt install -y python3-pip libssl-dev libz-dev luarocks
-	luarocks install luasocket
-	kubeadm init --control-plane-endpoint $(hostname) --pod-network-cidr=10.217.0.0/16
+	sudo apt install -y python3-pip libssl-dev libz-dev luarocks
+	sudo luarocks install luasocket
+	sudo kubeadm init --control-plane-endpoint $(hostname) --pod-network-cidr=10.217.0.0/16
   	mkdir -p $HOME/.kube
   	sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
   	sudo chown $(id -u):$(id -g) $HOME/.kube/config
@@ -101,7 +102,7 @@ if [ "$1" == "--control" ]; then
 sha256sum --check cilium-linux-amd64.tar.gz.sha256sum
 	sudo tar xzvfC cilium-linux-amd64.tar.gz /usr/local/bin
 	rm cilium-linux-amd64.tar.gz{,.sha256sum}
-	cilium install
+	sudo cilium install
 	cat <<EOF | kubectl apply -f -
 apiVersion: node.k8s.io/v1beta1
 kind: RuntimeClass
