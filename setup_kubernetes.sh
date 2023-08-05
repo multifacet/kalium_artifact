@@ -37,7 +37,8 @@ sudo add-apt-repository \
     $(lsb_release -cs) \
     stable"
 
-sudo apt-get update && sudo apt-get remove -y docker.io docker-doc docker-compose podman-docker containerd.io containerd docker-ce docker-ce-cli docker-buildx-plugin docker-compose-plugin && sudo apt-get install -y containerd.io=1.6.12-1
+sudo apt-get update 
+sudo apt-get remove -y docker.io docker-doc docker-compose containerd.io containerd docker-ce docker-ce-cli docker-buildx-plugin docker-compose-plugin && sudo apt-get install -y containerd.io=1.6.12-1
 
 sudo mkdir -p /etc/containerd
 containerd config default | sudo tee /etc/containerd/config.toml
